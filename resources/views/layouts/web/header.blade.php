@@ -1,15 +1,15 @@
-<header class="main-header style-two">
+<header class="main-header">
     <!-- Top bar -->
-    <div class="top-bar style-two">
+    <div class="top-bar theme-bg">
         <div class="auto-container">
             <div class="wrapper-box">
-                <div class="left-content">
-                    <div class="text">We only have what we give... <a href="#" class="donate-box-btn">Donate Now.</a></div>
-                </div>
+                {{--<div class="left-content">
+                    <div class="text"><a href="#" class="donate-box-btn">@lang('site.donate_now').</a></div>
+                </div>--}}
                 <div class="right-content">
                     <ul class="contact-info">
-                        <li><span class="flaticon-mail"></span><a href="mailto:support@charity.com">support@charity.com</a></li>
-                        <li><span class="flaticon-phone"></span><a href="tel:+211456789">+211 456 789</a></li>
+                        <li><span class="flaticon-mail"></span><a href="mailto:support@charity.com">{{setting('email')}}</a></li>
+                        <li><span class="flaticon-phone"></span><a href="tel:+211456789">{{setting('phone')}}</a></li>
                     </ul>
                     <div class="language-switcher">
                         <div class="languages">
@@ -30,12 +30,12 @@
     </div>
 
     <!-- Header Upper -->
-    <div class="header-upper style-two">
+    <div class="header-upper ">
         <div class="auto-container">
             <div class="wrapper-box">
                 <div class="logo-column">
                     <div class="logo-box">
-                        <div class="logo"><a href="{{route('/')}}"><img src="{{asset('storage/settings/'.setting('logo'))}}" alt="" title=""></a></div>
+                        <div class="logo"><a href="{{route('/')}}"><img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('logo'))}}" alt="" title=""></a></div>
                     </div>
                 </div>
                 <div class="right-column">
@@ -56,6 +56,7 @@
                                         </li>
                                         <li><a href="{{route('blogs')}}">@lang('site.blogs')</a></li>
                                         <li><a href="{{route('kudus')}}">@lang('site.kudus')</a></li>
+                                        <li><a href="{{route('campaigns')}}">@lang('site.campaigns')</a></li>
                                         <li><a href="{{route('contact_us')}}">@lang('site.contact_us')</a></li>
                                     </ul>
                                 </div>
@@ -80,17 +81,29 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="cart-btn">
-                            <div class="cart-icon"><span class="flaticon-bag"></span><span class="item-count">0</span></div>
-                        </div>
-                        <div class="navbar-btn-wrap">
-                            <button class="anim-menu-btn">
-                                <i class="flaticon-menu"></i>
-                            </button>
-                        </div>
-                        <div class="link-btn">
-                            <a href="#" class="theme-btn btn-style-four"><span>Volunteer</span></a>
-                        </div>
+
+                        @if(!Auth::check())
+                            <div class="link-btn">
+                                <a href="{{route('register')}}" class="theme-btn btn-style-one"><span>@lang('site.register')</span></a>
+                            </div>
+                        @elseif(Auth::user()->hasRole('super_admin'))
+                            <div class="link-btn">
+                                <a href="{{route('admin.home')}}" class="theme-btn btn-style-one"><span>@lang('site.dashboard')</span></a>
+                            </div>
+                        @else
+                            <div class="cart-btn">
+                                <a href="{{route('cart')}}">
+                                    <div class="cart-icon"><span class="flaticon-bag"></span><span class="item-count">{{session('count') ?? 0}}</span></div>
+                                </a>
+                            </div>
+                            <div class="link-btn">
+                                <a href="{{route('user.profile',['user'=>Auth::user()->id])}}" class="theme-btn btn-style-one"><span>@lang('site.profile')</span></a>
+                            </div>
+                            <div class="link-btn">
+                                <a href="{{route('logout')}}" class="theme-btn btn-style-one"><span>@lang('site.logout')</span></a>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -99,12 +112,14 @@
     <!--End Header Upper-->
 
     <!--End Header Upper-->
-    <div class="sticky-header style-two">
+    <div class="sticky-header ">
         <div class="auto-container">
             <div class="wrapper-box">
                 <div class="logo-column">
                     <div class="logo-box">
-                        <div class="logo"><a href="index.html"><img src="images/logo-3.png" alt="" title=""></a></div>
+
+                        <div class="logo"><a href="{{route('/')}}"><img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('logo'))}}" alt="" title=""></a></div>
+
                     </div>
                 </div>
                 <div class="menu-column">
@@ -121,15 +136,27 @@
                                 </div>
                             </nav><!-- Main Menu End-->
 
+                            <!--Search Box-->
+
+
+                                <div class="cart-btn">
+                                    <a href="{{route('cart')}}">
+                                        <div class="cart-icon"><span class="flaticon-bag"></span><span class="item-count">{{session('count') ?? 0}}</span></div>
+                                    </a>
+                                </div>
+
+
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
 
     <!-- Mobile Menu  -->
-    <div class="mobile-menu style-two">
+    <div class="mobile-menu style-one">
         <div class="menu-box">
             <div class="logo"><a href="index.html"><img src="images/logo-3.png" alt=""></a></div>
             <!-- Main Menu -->

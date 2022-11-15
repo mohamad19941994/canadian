@@ -8,8 +8,21 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 
 
+Route::prefix(LaravelLocalization::setLocale())
+    ->middleware([
+        'auth',
+    ])
+    ->group(function () {
+        Route::get('add-to-cart', [\App\Http\Controllers\WebController::class, 'addToCartPost'])->name('add.to.cart');
+        Route::get('cart', [\App\Http\Controllers\WebController::class, 'cart'])->name('cart');
+        Route::get('cart/remove', [\App\Http\Controllers\WebController::class, 'cartRemove'])->name('cart.remove');
+        Route::get('cart/quantity/update', [\App\Http\Controllers\WebController::class, 'cartQuantityUpdate'])->name('cart.quantity.update');
 
-
+        Route::controller(\App\Http\Controllers\StripePaymentController::class)->group(function(){
+            Route::get('stripe', 'stripe');
+            Route::post('stripe', 'stripePost')->name('stripe.post');
+        });
+    });
 /*Route::get('payment', 'App\Http\Controllers\WebController@payment')->name('payment');*/
 
 Route::get('tap-payment', 'App\Http\Controllers\TapController@form')->name('tap.form');
@@ -98,6 +111,7 @@ Route::prefix(LaravelLocalization::setLocale())
 
         //Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/blogs', 'App\Http\Controllers\WebController@blogs')->name('blogs');
+        Route::get('/campaigns', 'App\Http\Controllers\WebController@campaigns')->name('campaigns');
         Route::get('/services', 'App\Http\Controllers\WebController@services')->name('services');
         Route::get('/our-works', 'App\Http\Controllers\WebController@our_works')->name('our-works');
         Route::get('/about_us', 'App\Http\Controllers\WebController@about')->name('about_us');
@@ -117,6 +131,7 @@ Route::prefix(LaravelLocalization::setLocale())
         Route::post('subscribe', 'App\Http\Controllers\WebController@subscribe')->name('subscribe.post');
         Route::get('page/{page}/{slug?}', 'App\Http\Controllers\WebController@page')->name('page.show');
         Route::get('blog/{blog}/{slug?}', 'App\Http\Controllers\WebController@single_blog')->name('blog.show');
+        Route::get('campaign/{campaign}/{slug?}', 'App\Http\Controllers\WebController@single_campaign')->name('campaign.show');
         //Route::get('blog/{slug}', 'App\Http\Controllers\WebController@blog_show')->name('blog.show');
         //Route::get('service/{slug?}', 'App\Http\Controllers\WebController@service_show')->name('service.show');
         Route::get('service/{category}/{slug?}', 'App\Http\Controllers\WebController@service_show')->name('service.show');
@@ -134,9 +149,9 @@ Route::prefix(LaravelLocalization::setLocale())
         //Route::post('logout', 'Auth\LoginController@logout')->name('logout');
         Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
-        /*// Registration Routes...
-        Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-        Route::post('register', 'Auth\RegisterController@register');*/
+        // Registration Routes...
+        Route::get('register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register');
+        Route::post('register', 'App\Http\Controllers\Auth\RegisterController@register');
 
         // Password Reset Routes...
         Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
@@ -151,15 +166,15 @@ Route::prefix(LaravelLocalization::setLocale())
         });
 
         //user register
-        Route::get('user/register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('user.register');
-        Route::post('user/register', 'App\Http\Controllers\Auth\RegisterController@register');
+        //Route::get('user/register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('user.register');
+        //Route::post('user/register', 'App\Http\Controllers\Auth\RegisterController@register');
 
         /*Route::get('user/login', 'App\Http\Controllers\Auth\RegisterController@showUserLoginForm')->name('user.login');
         Route::post('user/login', 'App\Http\Controllers\Auth\RegisterController@userLogin');*/
 
 
-        Route::get('user/login', 'App\Http\Controllers\Auth\LoginController@showUserLoginForm')->name('user.login');
-        Route::post('user/login', 'App\Http\Controllers\Auth\LoginController@userLogin');
+        //Route::get('user/login', 'App\Http\Controllers\Auth\LoginController@showUserLoginForm')->name('user.login');
+        //Route::post('user/login', 'App\Http\Controllers\Auth\LoginController@userLogin');
 
         //user profile
 

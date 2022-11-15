@@ -28,8 +28,8 @@
 }
 
 :root {
-    --theme-color: #ed6221;
-    --theme-color-two: #ffbf00;
+    --theme-color: #C60A01;
+    --theme-color-two: #5394A0;
     --theme-color-three: #d40032;
     --theme-color-four: #02c06d;
     --theme-color-five: #18bec2;
@@ -981,7 +981,7 @@ li {
     position: relative;
     line-height: 24px;
     background: none;
-    color: #fff;
+    color: var(--theme-color-two);
     font-size: 13px;
     font-weight: 500;
     padding: 15px 48px;
@@ -10068,7 +10068,7 @@ img {
 }
 
 .payment-donate-section .chicklet-list :checked+label {
-    background: #242424;
+    background: var(--theme-color-two);
 }
 
 .payment-donate-section .chicklet-list {
@@ -12217,7 +12217,7 @@ img {
 .page-title:before {
     position: absolute;
     content: '';
-    background: rgba(29, 23, 71, 0.9);
+    background: rgba(74, 110, 117, 0.9);
     right: 0;
     top: 0;
     width: 100%;

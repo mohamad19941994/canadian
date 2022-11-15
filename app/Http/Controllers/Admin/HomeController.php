@@ -22,19 +22,16 @@ class HomeController extends Controller
     {
         $users = User::count();
         $blogs = Blog::count();
-        $services = Service::count();
         $blog_categories = Category::count();
-        $service_categories = ServiceCategory::count();
         $page_categories = PageCategory::count();
         $pages = Page::count();
         $contacts = Contact::count();
-        $customers = Customer::count();
         $subscribes = Subscribe::count();
 
 
         return view('admin.home', compact(
-            ['users', 'blogs', 'services', 'blog_categories', 'customers',
-                'service_categories', 'pages', 'page_categories', 'contacts', 'subscribes']));
+            ['users', 'blogs',  'blog_categories',
+                'pages', 'page_categories', 'contacts', 'subscribes']));
 
     }// end of index
 

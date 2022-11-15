@@ -77,7 +77,7 @@
             <div class="d-flex flex-row-fluid flex-column justify-content-between">
                 <!--begin: Aside header-->
                 <a href="{{route('admin.home')}}" class="flex-column-auto mt-5 pb-lg-0 pb-10">
-                    <img src="{{url('/thumbnail/900/130/80/storage/settings/'.setting('logo'))}}" alt="logo" class="max-h-70px" loading="lazy">
+                    <img src="{{url('/thumbnail/600/600/80/storage/settings/'.setting('logo'))}}" alt="logo" class="" loading="lazy">
                 </a>
                 <!--end: Aside header-->
                 <!--begin: Aside content-->
@@ -111,7 +111,7 @@
                         <h3 class="font-size-h1">@lang('site.welcome_swan')</h3>
                         <p class="text-muted font-weight-bold">@lang('site.please_enter_email_swan')</p>
                         <span class="text-muted font-weight-bold font-size-h4">@lang('site.no_have_account')
-                            <a href="{{route('user.register')}}"  class="text-primary font-weight-bolder">@lang('site.register_now')</a></span>
+                            <a href="{{route('register')}}"  class="text-primary font-weight-bolder">@lang('site.register_now')</a></span>
                     </div>
                     <!--begin::Form-->
                     <form class="form validatable-form" novalidate="novalidate" id="kt_login_signin_form" method="POST" action="{{ route('login') }}">

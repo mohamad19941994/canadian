@@ -111,28 +111,46 @@
                         <h3 class="font-size-h1">@lang('site.welcome_swan')</h3>
                         <p class="text-muted font-weight-bold">@lang('site.please_enter_email_swan')</p>
                         <span class="text-muted font-weight-bold font-size-h4">@lang('site.have_account')
-									<a href="{{route('user.login')}}"  class="text-primary font-weight-bolder">@lang('site.login_now')</a></span>
+									<a href="{{route('login')}}"  class="text-primary font-weight-bolder">@lang('site.login_now')</a></span>
                     </div>
                     <!--begin::Form-->
-                    <form class="form validatable-form" novalidate="novalidate" id="kt_login_signin_form" method="POST" action="{{ route('user.register') }}">
+                    <form class="form validatable-form" novalidate="novalidate" id="kt_login_signin_form" method="POST" action="{{ route('register') }}">
                         @csrf
                         {!!  GoogleReCaptchaV3::renderField('contact_us_id','contact_us_action') !!}
                         {{--Name--}}
                         <div class="form-group">
-                            <input name="name" class="form-control form-control-solid h-auto py-5 px-6" type="text" placeholder="@lang('site.name')" value="{{ old('name') }}"  required autocomplete="name" autofocus>
+                            <input name="name" class="form-control form-control-solid h-auto py-5 px-6" type="text" placeholder="@lang('site.name_or_fake')" value="{{ old('name') }}"  required autocomplete="name" autofocus>
                         </div>
                         @if ($errors->has('name'))
                             <div class="fv-plugins-message-container">
                                 <div data-field="name" data-validator="notEmpty" class="fv-help-block">{{ $errors->first('name') }}</div>
                             </div>
                         @endif
-                        {{--Phone--}}
+                        {{--email--}}
                         <div class="form-group">
-                            <input name="phone" class="form-control form-control-solid h-auto py-5 px-6" type="text" placeholder="@lang('site.phone')" value="{{ old('phone') }}"  required autocomplete="name">
+                            <input name="email" class="form-control form-control-solid h-auto py-5 px-6" type="email" placeholder="@lang('site.email')" value="{{ old('email') }}"  required>
                         </div>
-                        @if ($errors->has('phone'))
+                        @if ($errors->has('email'))
                             <div class="fv-plugins-message-container">
-                                <div data-field="name" data-validator="notEmpty" class="fv-help-block">{{ $errors->first('phone') }}</div>
+                                <div data-field="email" data-validator="notEmpty" class="fv-help-block">{{ $errors->first('email') }}</div>
+                            </div>
+                        @endif
+                        {{--Password--}}
+                        <div class="form-group">
+                            <input name="password" class="form-control form-control-solid h-auto py-5 px-6" type="password" placeholder="@lang('site.password')"  required="required" autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password'))
+                            <div class="fv-plugins-message-container">
+                                <div data-field="password" data-validator="notEmpty" class="fv-help-block">{{ $errors->first('password') }}</div>
+                            </div>
+                        @endif
+                        {{--Confirm Password--}}
+                        <div class="form-group">
+                            <input name="password_confirmation" class="form-control form-control-solid h-auto py-5 px-6" type="password" placeholder="@lang('site.password_confirmation')"  required="required" autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password_confirmation'))
+                            <div class="fv-plugins-message-container">
+                                <div data-field="password_confirmation" data-validator="notEmpty" class="fv-help-block">{{ $errors->first('password_confirmation') }}</div>
                             </div>
                         @endif
                         {{--Email--}}{{--

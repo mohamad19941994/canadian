@@ -15,51 +15,52 @@ class SliderSeeder extends Seeder
      */
     public function run()
     {
-        Slider::create(['image' => 'slider1.png','image_background' => 'background.jpg','ar' => [
-            'subhead' => 'فريق طبي متميز',
-            'name' => 'تخصصات متنوعة في التجميل',
-            'image_alt' => 'مجمع سوان التخصصي الطبي',
+        Slider::create(['image' => 'slider1.jpeg','image_background' => 'background.jpg',
+            'ar' => [
+            'subhead' => 'مشروع الزكاة',
+            'name' => 'مشروع الزكاة',
+            'image_alt' => 'مشروع الزكاة',
             'button_name' => 'اتصل بنا',
             'button_url' => 'http://127.0.0.1:8000/ar',
-            'description' => 'للرجال والنساء ولكافة الفئات العمرية'],
+            'description' => 'لمصارف الزكاة الشرعية'],
             'en' => [
-            'subhead' => 'DO YOU NEED A NEW',
-            'name' => 'WEB DESIGN?',
-            'image_alt' => 'مجمع سوان التخصصي الطبي',
-            'button_name' => 'اتصل بنا',
-            'button_url' => 'http://127.0.0.1:8000/ar',
-            'description' => 'Check out our options and features'],
+                'subhead' => 'مشروع الزكاة',
+                'name' => 'مشروع الزكاة',
+                'image_alt' => 'مشروع الزكاة',
+                'button_name' => 'اتصل بنا',
+                'button_url' => 'http://127.0.0.1:8000/ar',
+                'description' => 'لمصارف الزكاة الشرعية'],
+            'tr' => [
+                'subhead' => 'مشروع الزكاة',
+                'name' => 'مشروع الزكاة',
+                'image_alt' => 'مشروع الزكاة',
+                'button_name' => 'اتصل بنا',
+                'button_url' => 'http://127.0.0.1:8000/ar',
+                'description' => 'لمصارف الزكاة الشرعية'],
             ]);
-        Slider::create(['image' => 'slider2.png','image_background' => 'background.jpg','ar' => [
-            'subhead' => 'متابعة مشاكل التغذية',
-            'name' => 'متابعة شهرية لحالات السمنة والنحافة وتحديد الحمية المناسبة',
-            'image_alt' => 'مجمع سوان التخصصي الطبي',
-            'button_name' => 'اتصل بنا',
-            'button_url' => 'http://127.0.0.1:8000/ar',
-            'description' => 'للرجال والنساء ولكافة الفئات العمرية'],
-            'en' => [
-                'subhead' => 'DO YOU NEED A NEW',
-                'name' => 'WEB DESIGN?',
-                'image_alt' => 'مجمع سوان التخصصي الطبي',
-                'button_name' => 'اتصل بنا',
-                'button_url' => 'http://127.0.0.1:8000/ar',
-                'description' => 'Check out our options and features'],
-        ]);
-        Slider::create(['image' => 'slider3.png','image_background' => 'background.jpg','ar' => [
-            'subhead' => 'تصميم الابتسامة وتجميل الأسنان',
-            'name' => 'خبرات متعددة في إعادة تأهيل الأسنان بشكل كامل ',
-            'image_alt' => 'مجمع سوان التخصصي الطبي',
-            'button_name' => 'اتصل بنا',
-            'button_url' => 'http://127.0.0.1:8000/ar',
-            'description' => 'للرجال والنساء ولكافة الفئات العمرية'],
-            'en' => [
-                'subhead' => 'DO YOU NEED A NEW',
-                'name' => 'WEB DESIGN?',
-                'image_alt' => 'مجمع سوان التخصصي الطبي',
-                'button_name' => 'اتصل بنا',
-                'button_url' => 'http://127.0.0.1:8000/ar',
-                'description' => 'Check out our options and features'],
-        ]);
 
+        Slider::create(['image' => 'slider2.jpeg','image_background' => 'background.jpg',
+            'ar' => [
+                'subhead' => 'مشروع بناء المساجد',
+                'name' => 'مشروع بناء المساجد',
+                'image_alt' => 'مشروع بناء المساجد',
+                'button_name' => 'اتصل بنا',
+                'button_url' => 'http://127.0.0.1:8000/ar',
+                'description' => 'ساهم معنا'],
+            'en' => [
+                'subhead' => 'مشروع بناء المساجد',
+                'name' => 'مشروع بناء المساجد',
+                'image_alt' => 'مشروع بناء المساجد',
+                'button_name' => 'اتصل بنا',
+                'button_url' => 'http://127.0.0.1:8000/ar',
+                'description' => 'ساهم معنا'],
+            'tr' => [
+                'subhead' => 'مشروع بناء المساجد',
+                'name' => 'مشروع بناء المساجد',
+                'image_alt' => 'مشروع بناء المساجد',
+                'button_name' => 'اتصل بنا',
+                'button_url' => 'http://127.0.0.1:8000/ar',
+                'description' => 'ساهم معنا'],
+        ]);
     }
 }

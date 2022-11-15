@@ -59,15 +59,6 @@
                                             <a href="{{route('admin.pages.index')}}" class="text-primary font-weight-bold font-size-h6">@lang('site.pages')</a>
                                             <span class="font-weight-bold text-muted font-size-sm">({{$pages}})</span>
                                         </div>
-                                        <div class="col bg-light-primary px-6 py-8 rounded-xl mr-7 mb-7">
-                                        <span class="svg-icon svg-icon-3x d-block my-2">
-                                            <!--begin::Svg Icon-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <rect x="0" y="0" width="24" height="24"></rect> <path d="M4,9.67471899 L10.880262,13.6470401 C10.9543486,13.689814 11.0320333,13.7207107 11.1111111,13.740321 L11.1111111,21.4444444 L4.49070127,17.526473 C4.18655139,17.3464765 4,17.0193034 4,16.6658832 L4,9.67471899 Z M20,9.56911707 L20,16.6658832 C20,17.0193034 19.8134486,17.3464765 19.5092987,17.526473 L12.8888889,21.4444444 L12.8888889,13.6728275 C12.9050191,13.6647696 12.9210067,13.6561758 12.9368301,13.6470401 L20,9.56911707 Z" fill="#000000"></path> <path d="M4.21611835,7.74669402 C4.30015839,7.64056877 4.40623188,7.55087574 4.5299008,7.48500698 L11.5299008,3.75665466 C11.8237589,3.60013944 12.1762411,3.60013944 12.4700992,3.75665466 L19.4700992,7.48500698 C19.5654307,7.53578262 19.6503066,7.60071528 19.7226939,7.67641889 L12.0479413,12.1074394 C11.9974761,12.1365754 11.9509488,12.1699127 11.9085461,12.2067543 C11.8661433,12.1699127 11.819616,12.1365754 11.7691509,12.1074394 L4.21611835,7.74669402 Z" fill="#000000" opacity="0.3"></path> </g> </svg>
-                                            <!--end::Svg Icon-->
-                                        </span>
-                                            <a href="{{route('admin.customers.index')}}" class="text-primary font-weight-bold font-size-h6">@lang('site.customers')</a>
-                                            <span class="font-weight-bold text-muted font-size-sm">({{$customers}})</span>
-                                        </div>
                                     </div>
                                     <!--end::Row-->
                                     <!--begin::Row-->
@@ -80,15 +71,6 @@
                                         </span>
                                             <a href="{{route('admin.categories.index')}}" class="text-primary font-weight-bold font-size-h6">@lang('site.categories')</a>
                                             <span class="font-weight-bold text-muted font-size-sm">({{$blog_categories}})</span>
-                                        </div>
-                                        <div class="col bg-light-primary px-6 py-8 rounded-xl mr-7 mb-7">
-                                        <span class="svg-icon svg-icon-3x d-block my-2">
-                                            <!--begin::Svg Icon-->
-                                            <span class="svg-icon svg-icon-2x"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon"> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <rect id="bound" x="0" y="0" width="24" height="24"></rect> <path d="M15.9956071,6 L9,6 C7.34314575,6 6,7.34314575 6,9 L6,15.9956071 C4.70185442,15.9316381 4,15.1706419 4,13.8181818 L4,6.18181818 C4,4.76751186 4.76751186,4 6.18181818,4 L13.8181818,4 C15.1706419,4 15.9316381,4.70185442 15.9956071,6 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path> <path d="M10.1818182,8 L17.8181818,8 C19.2324881,8 20,8.76751186 20,10.1818182 L20,17.8181818 C20,19.2324881 19.2324881,20 17.8181818,20 L10.1818182,20 C8.76751186,20 8,19.2324881 8,17.8181818 L8,10.1818182 C8,8.76751186 8.76751186,8 10.1818182,8 Z" id="Rectangle-19-Copy-3" fill="#000000"></path> </g> </svg></span>
-                                            <!--end::Svg Icon-->
-                                        </span>
-                                            <a href="{{route('admin.service_categories.index')}}" class="text-primary font-weight-bold font-size-h6">@lang('site.service_categories')</a>
-                                            <span class="font-weight-bold text-muted font-size-sm">({{$service_categories}})</span>
                                         </div>
                                         <div class="col bg-light-primary px-6 py-8 rounded-xl mr-7 mb-7">
                                         <span class="svg-icon svg-icon-3x d-block my-2">

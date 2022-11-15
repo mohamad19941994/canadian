@@ -44,4 +44,8 @@ class User extends Authenticatable
         'updated_at' => 'date:Y-m-d',
         'email_verified_at' => 'datetime',
     ];
+
+    public function cart(){
+        return $this->belongsTo(UserCart::class, 'user_id');
+    }
 }

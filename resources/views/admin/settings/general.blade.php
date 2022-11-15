@@ -32,7 +32,7 @@
                             <li class="nav-item">
                                 <a class="nav-link {{($locale == 'ar') ? 'active' : ''}}" data-toggle="tab" href="#{{$locale}}">
                                     <span class="nav-icon"><i class="la la-language"></i></span>
-                                    {{($locale == 'ar') ? 'العربية' : 'الإنكليزية'}}
+                                    @include('layouts.admin.language_tabs')
                                 </a>
                             </li>
                         @endforeach
@@ -194,126 +194,23 @@
 
                                 {{--logo--}}
                                 <div class="form-group col-lg-12">
-                                    <label for="image">@lang('site.logo')</label>
-                                    <div class="col-lg-9 col-xl-6">
-                                        <div class="image-input image-input-outline image-input-circle" id="kt_image_1">
-                                            <div class="image-input-wrapper" style="background-image: url({{asset('storage/settings/'.setting('logo'))}});"></div>
-                                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="@lang('site.change_avatar')">
-                                                <i class="fa fa-pen icon-sm text-muted"></i>
-                                                <input type="file" name="logo" accept=".png, .jpg, .jpeg, .ico">
-                                            </label>
-                                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="@lang('site.cancel_avatar')">
-                                                <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <span class="form-text text-muted">يسمح بالصور من نوع: png, jpg, jpeg.</span>
-                                    </div>
-                                </div>
-
-                                {{--dark_logo--}}
-                                <div class="form-group col-lg-12">
-                                    <label for="image">@lang('site.dark_logo')</label>
-                                    <div class="col-lg-9 col-xl-6">
-                                        <div class="image-input image-input-outline image-input-circle" id="kt_image_2">
-                                            <div class="image-input-wrapper" style="background-image: url({{asset('storage/settings/'.setting('dark_logo'))}});"></div>
-                                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="@lang('site.change_avatar')">
-                                                <i class="fa fa-pen icon-sm text-muted"></i>
-                                                <input type="file" name="dark_logo" accept=".png, .jpg, .jpeg, .ico">
-                                            </label>
-                                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="@lang('site.cancel_avatar')">
-                                                <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <span class="form-text text-muted">يسمح بالصور من نوع: png, jpg, jpeg.</span>
-                                    </div>
-                                </div>
-
-                                {{--favicon--}}
-                                <div class="form-group col-lg-12">
-                                    <label for="image">@lang('site.favicon')</label>
-                                    <div class="col-lg-9 col-xl-6">
-                                        <div class="image-input image-input-outline image-input-circle" id="kt_image_3">
-                                            <div class="image-input-wrapper" style="background-image: url({{asset('storage/settings/'.setting('fav_icon'))}});"></div>
-                                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="@lang('site.change_avatar')">
-                                                <i class="fa fa-pen icon-sm text-muted"></i>
-                                                <input type="file" name="fav_icon" accept=".png, .jpg, .jpeg, .ico">
-                                            </label>
-                                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="@lang('site.cancel_avatar')">
-                                                <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <span class="form-text text-muted">يسمح بالصور من نوع: png, jpg, jpeg.</span>
-                                    </div>
-                                </div>
-
-                                {{--skin_shows--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.skin_shows')</label>
-                                    <input type="file" name="skin_shows" class="form-control image_skin_shows">
+                                    <label>@lang('site.logo')</label>
+                                    <input type="file" name="logo" class="form-control image_logo">
                                 </div>
 
                                 <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('skin_shows'))}}"  style="width: 100px" class="img-thumbnail image_preview_skin_shows" alt="">
+                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('logo'))}}"  style="width: 100px" class="img-thumbnail image_preview_logo" alt="">
                                 </div>
 
-                                {{--laser_shows--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.laser_shows')</label>
-                                    <input type="file" name="laser_shows" class="form-control image_laser_shows">
-                                </div>
 
+                                {{--fav_icon--}}
                                 <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('laser_shows'))}}"  style="width: 100px" class="img-thumbnail image_preview_laser_shows" alt="">
-                                </div>
-
-                                {{--nutrition_offers--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.nutrition_offers')</label>
-                                    <input type="file" name="nutrition_offers" class="form-control image_nutrition_offers">
+                                    <label>@lang('site.favicon')</label>
+                                    <input type="file" name="fav_icon" class="form-control image_fav_icon">
                                 </div>
 
                                 <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('nutrition_offers'))}}"  style="width: 100px" class="img-thumbnail image_preview_nutrition_offers" alt="">
-                                </div>
-
-                                {{--dental_shows--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.dental_shows')</label>
-                                    <input type="file" name="dental_shows" class="form-control image_dental_shows">
-                                </div>
-
-                                <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('dental_shows'))}}"  style="width: 100px" class="img-thumbnail image_preview_dental_shows" alt="">
-                                </div>
-
-                                {{--skin_offers--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.skin_offers')</label>
-                                    <input type="file" name="skin_offers" class="form-control image_skin_offers">
-                                </div>
-
-                                <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('skin_offers'))}}"  style="width: 100px" class="img-thumbnail image_preview_skin_offers" alt="">
-                                </div>
-
-                                {{--surgery_offers--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.surgery_offers')</label>
-                                    <input type="file" name="surgery_offers" class="form-control image_surgery_offers">
-                                </div>
-
-                                <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('surgery_offers'))}}"  style="width: 100px" class="img-thumbnail image_preview_surgery_offers" alt="">
-                                </div>
-
-                                {{--dr_ahmad--}}
-                                <div class="form-group col-lg-12">
-                                    <label>@lang('site.dr_ahmad')</label>
-                                    <input type="file" name="dr_ahmad" class="form-control image_dr_ahmad">
-                                </div>
-
-                                <div class="form-group col-lg-12">
-                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('dr_ahmad'))}}"  style="width: 100px" class="img-thumbnail image_preview_dr_ahmad" alt="">
+                                    <img src="{{url('/thumbnail/100/100/80/storage/settings/'.setting('fav_icon'))}}"  style="width: 100px" class="img-thumbnail image_preview_fav_icon" alt="">
                                 </div>
                             </div>
                         </div>
@@ -396,75 +293,20 @@
     {{--image--}}
     <script>
         // // image preview
-        $(".image_skin_shows").change(function () {
+        $(".image_logo").change(function () {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('.image_preview_skin_shows').attr('src', e.target.result);
+                    $('.image_preview_logo').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(this.files[0]);
             }
         });
-        $(".image_laser_shows").change(function () {
+        $(".image_fav_icon").change(function () {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('.image_preview_laser_shows').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-        $(".image_nutrition_offers").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('.image_preview_nutrition_offers').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-        $(".image_dental_shows").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('.image_preview_dental_shows').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-        $(".image_skin_offers").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('.image_preview_skin_offers').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-        $(".image_surgery_offers").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('.image_preview_surgery_offers').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-        $(".image_skin_shows").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('.image_preview_skin_shows').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-
-        $(".image_dr_ahmad").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('.image_preview_dr_ahmad').attr('src', e.target.result);
+                    $('.image_preview_fav_icon').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(this.files[0]);
             }

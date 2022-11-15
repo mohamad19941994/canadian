@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Traits\CartTrait;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -21,7 +23,8 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, cartTrait;
+
 
     /**
      * Where to redirect users after login.
@@ -40,9 +43,9 @@ class LoginController extends Controller
     {
 
         $request->validate([
-            /*$this->username() => 'required|string',
-            'password' => 'required|string',*/
-            'phone' => 'required',
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            //'phone' => 'required',
         ]);
 
         //dd($request->phone);
@@ -60,8 +63,11 @@ class LoginController extends Controller
             }
             \Auth::login($user);
 
+            $count = self::cartCount();
 
-
+            dd($count);
+            //Session::put('count', $count);
+            session(['count' => $count]);
             return redirect()->route('/');
         }else{
             session()->flash('error_phone', __('site.errors'));
@@ -92,8 +98,6 @@ class LoginController extends Controller
     protected function attemptUserLogin(Request $request)
     {
 
-        dd($this->guard()->attempt(
-            $this->credentialsphone($request), $request->boolean('remember')));
         return $this->guard()->attempt(
             $this->credentialsphone($request), $request->boolean('remember')
         );
@@ -113,5 +117,11 @@ class LoginController extends Controller
     {
         //dd('asd');
         return 'phone';
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        session()->forget('count');
+        return redirect('/login');
     }
 }

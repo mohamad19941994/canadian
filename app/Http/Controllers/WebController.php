@@ -2,59 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Models\Appointment;
+use App\Traits\CartTrait;
 use App\Models\Blog;
-use App\Models\Doctor;
-use App\Models\DoctorCategory;
-use App\Models\DoctorService;
+use App\Models\Campaign;
 use App\Models\Page;
 use App\Models\Photo;
 use App\Models\User;
-use App\Models\Customer;
 use App\Models\Slider;
 use App\Models\Subscribe;
 use App\Models\Contact;
-use App\Models\Service;
+use App\Models\UserCart;
 use App\Models\Video;
-use App\Models\Work;
-use App\Models\Landing;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Auth;
+use Auth;
+
 
 
 class WebController extends Controller
 {
+    use cartTrait;
     public function __construct(){
-        $doctor_categories = DoctorCategory::orderby('id', 'asc')->get();
-        $latest_works = Work::orderby('id', 'asc')->take(3)->get();
+
+        //dd(Auth::check());
         $categories = Category::all();
-
-
-        //dd($x[0]->doctor->category->name);
-        View::share('doctor_categories', $doctor_categories);
+        $photos = Photo::all();
         View::share('categories', $categories);
-        View::share('latest_works', $latest_works);
+        View::share('photos', $photos);
     }
 
     public function index()
     {
-        //dd('aaaaa');
-        $services = Service::orderBy('id', 'asc')->get();
-        $works = Work::with('service')->orderBy('id', 'asc')->get();
-        $customers = Customer::orderBy('id', 'asc')->get();
+
         $latest_blogs = Blog::orderBy('id', 'asc')->take(2)->get();
         $sliders = Slider::all();
-        $doctor_services = DoctorService::all();
-        $doctors = Doctor::all();
+        $photos = Photo::all();
+        $campaigns = Campaign::with('category')->get();
+        //dd($campaigns);
         $blogs = Blog::latest()->take(3)->get();
-
-        //dd($blogs);
-
-        //dd($slider);
-        return view('web.home', compact('services','works', 'customers', 'latest_blogs', 'sliders', 'blogs','doctors', 'doctor_services'));
+        return view('web.home', compact('latest_blogs', 'sliders', 'blogs', 'photos', 'campaigns'));
 
     }// end of index
 
@@ -67,6 +54,18 @@ class WebController extends Controller
         })->latest()->paginate(6);
 
         return view('web.blogs', compact('blogs'));
+
+    }// end of index
+
+    public function campaigns(Request $request)
+    {
+        $campaigns = Campaign::with('category')->when($request->search, function ($q) use ($request) {
+
+            return $q->whereTranslationLike('name', '%' . $request->search . '%');
+
+        })->latest()->paginate(6);
+
+        return view('web.campaigns', compact('campaigns'));
 
     }// end of index
 
@@ -318,6 +317,10 @@ class WebController extends Controller
     public function single_blog(Request $request, Blog $blog){
         return view('web.blog', compact('blog'));
     }
+
+    public function single_campaign(Request $request, Campaign $campaign){
+        return view('web.campaign', compact('campaign'));
+    }
     public function page(Request $request, Page $page){
         return view('web.page', compact('page'));
     }
@@ -363,47 +366,92 @@ class WebController extends Controller
 
     }// end of delete
 
-    public function skin_shows()
+    public function addToCart($id)
     {
-        return view('web.skin_shows');
+        //session()->flush();
+
+        $campaign = Campaign::findOrFail($id);
+
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $campaign->name,
+            ];
+        }
+        session()->put('cart', $cart);
+
+        //dd(session()->all());
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
 
     }// end of index
 
-    public function laser_shows()
+    public function addToCartPost(Request $request)
     {
-        return view('web.laser_shows');
+        //dd(Auth::user());
 
-    }// end of index
+        $user_id = Auth::user()->id;
+        $campaign_id = $request->campaignId;
+        $price = $request->price;
+        $input['campaign_id'] = $campaign_id;
+        $input['status'] = false;
+        $input['price'] = $price;
+        $input['user_id'] = $user_id;
+        $input['quantity'] = UserCart::query()->where(['user_id'=>$user_id, 'campaign_id'=>$campaign_id])->count() + 1;
+        $input['total_price'] = $input['quantity']*$input['price'];
 
-    public function nutrition_offers()
-    {
-        return view('web.nutrition_offers');
+        UserCart::updateOrCreate([
+            'user_id' => $user_id,
+            'campaign_id' => $campaign_id
+        ], $input);
 
-    }// end of index
+        session()->flash('success', __('site.added_successfully'));
+        session(['count' => self::cartCount()]);
+        //return redirect()->route('campaigns');
 
-    public function dental_shows()
-    {
-        return view('web.dental_shows');
+        return response()->json([
+            'message'=> __('site.added_successfully'),
+            'count'=> self::cartCount(),
+        ]);
 
-    }// end of index
+    }
 
-    public function skin_offers()
-    {
-        return view('web.skin_offers');
+    public function cart(){
 
-    }// end of index
+        $userCarts = UserCart::all();
+        //dd($userCarts);
+        return view('web.cart', compact('userCarts'));
+    }
 
-    public function surgery_offers()
-    {
-        return view('web.surgery_offers');
+    public function cartRemove(Request $request){
 
-    }// end of index
+        UserCart::findOrFail($request->userCartId)->delete();
 
-    public function dr_ahmad()
-    {
-        return view('web.dr_ahmad');
+        session()->flash('success', __('site.deleted_successfully'));
+        session(['count' => self::cartCount()]);
+        //return redirect()->route('campaigns');
 
-    }// end of index
+        return response()->json([
+            'message'=> __('site.deleted_successfully'),
+            'count'=> self::cartCount(),
+        ]);
+    }
+
+    public function cartQuantityUpdate(Request $request){
+
+        //dd($request->all());
+        UserCart::findOrFail($request->userCartId)->update(['quantity'=> $request->quantity]);
+
+        session()->flash('success', __('site.updated_successfully'));
+        session(['count' => self::cartCount()]);
+
+        return response()->json([
+            'message'=> __('site.updated_successfully'),
+            'count'=> self::cartCount(),
+        ]);
+    }
 
 
 }
