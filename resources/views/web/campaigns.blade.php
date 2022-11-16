@@ -88,11 +88,19 @@
                                 <div class="overlay-content">
                                     <ul class="clearfix" style="display: flex;justify-content: space-evenly;">
                                         <li>
-                                            <a href="javascript:;" class="addToCart_{{$campaign->id}}"><span class="fa fa-shopping-cart"></span>
-                                                <div class="toltip-content">
-                                                    <p>أضف للسلة</p>
-                                                </div>
-                                            </a>
+                                            @if(\Illuminate\Support\Facades\Auth::check())
+                                                <a href="javascript:;" class="addToCart_{{$campaign->id}}"><span class="fa fa-shopping-cart"></span>
+                                                    <div class="toltip-content">
+                                                        <p>أضف للسلة</p>
+                                                    </div>
+                                                </a>
+                                            @else
+                                                <a href="{{route('login')}}"><span class="fa fa-shopping-cart"></span>
+                                                    <div class="toltip-content">
+                                                        <p>أضف للسلة</p>
+                                                    </div>
+                                                </a>
+                                            @endif
                                         </li>
 
                                         <li>

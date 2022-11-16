@@ -2,50 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserCart;
+use App\Models\UserDonation;
+use App\Traits\CartTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Session;
-use Stripe;
 
 class StripePaymentController extends Controller
 {
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stripe()
-    {
-        return view('stripe');
-    }
 
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use CartTrait;
     public function stripePost(Request $request)
     {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')
+        );
 
-        Stripe\Charge::create ([
-            "amount" => 100 * 100,
-            "currency" => "usd",
-            "source" => $request->stripeToken,
-            "description" => "Test payment from LaravelTus.com."
+        $userCarts = UserCart::query()->where('user_id', auth()->id())->update(['status'=>1]);
+        $totalPrice = UserCart::query()->where('user_id', auth()->id())->where('status',1)->sum('total_price');
+
+
+       $prices = [
+         'price_data'=>[
+             'currency' => 'usd',
+             'product_data' => [
+                 'name' => \auth()->user()->name
+             ],
+             'unit_amount' => $totalPrice * 100
+         ],
+        'quantity' => 1
+       ];
+        $response = $stripe->checkout->sessions->create([
+            'success_url' => route('payment_success'),
+            'cancel_url' => route('payment_cancel'),
+            'line_items' => [
+                $prices
+            ],
+            'mode' => 'payment',
         ]);
-
-        Session::flash('success', 'Payment successful!');
-
-        return back();
+        session(['checkout_session_id'=>$response->id]);
+        return redirect($response->url);
     }
-    public function confirmPayment(Request $request){
-        //dd($request->all());
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        $search = Stripe\Charge::search ([
-            'token'=>$request->token
-        ]);
 
-        dd($search);
+    public function paymentSuccess(Request $request){
+        //dd(session('checkout_session_id'));
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')
+        );
+        $response = $stripe->checkout->sessions->retrieve(
+            session('checkout_session_id'),[]
+        );
+        //dd($response);
+
+        if ($response->payment_status == 'paid' && $response->status == 'complete' || $response->status == 'success'){
+            $userCarts = UserCart::query()->where('user_id', auth()->id())->where('status',1)->get();
+
+            foreach ($userCarts as $userCart){
+                UserDonation::create([
+                    'user_id'=>$userCart->user_id,
+                    'campaign_id'=>$userCart->campaign_id,
+                    'price'=>$userCart->price,
+                    'total_price'=>$userCart->total_price,
+                    'quantity'=>$userCart->quantity,
+                ]);
+            }
+            $userCarts = UserCart::query()->where('user_id', auth()->id())->where('status',1)->delete();
+
+            session(['count' => self::cartCount()]);
+            session()->forget('checkout_session_id');
+            session()->flash('success', __('site.added_successfully'));
+            return redirect()->route('campaigns');
+        }
+
+    }
+    public function paymentCancel(Request $request){
+        session()->flash('danger', __('site.cancel_successfully'));
+        return redirect()->route('campaigns');
     }
 }

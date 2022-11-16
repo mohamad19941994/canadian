@@ -49,7 +49,8 @@
                                         </div>
                                     </td>
                                     <td class="qty">
-                                        <input class="quantity-spinner quantity-spinner_{{$userCart->id}}" type="text" value="{{$userCart->quantity}}" name="quantity">
+
+                                        <input class="quantity-spinner quantity-spinner_{{$userCart->id}}" type="text" {{($userCart->status == 1) ? 'disabled':''}} value="{{$userCart->quantity}}" name="quantity">
                                     </td>
                                     <td class="price">${{$userCart->price}}
                                         <input class="price_{{$userCart->id}}" type="hidden" value="{{$userCart->price}}">
@@ -98,29 +99,34 @@
                                         var quantity = $('.quantity-spinner_{{$userCart->id}}').val();
                                         var userCartId = $('.userCartId_{{$userCart->id}}').val();
                                         var price = $('.price_{{$userCart->id}}').val();
-                                        $.ajax({
-                                            type: "get",
-                                            url: '{{route('cart.quantity.update')}}',
-                                            data: {
-                                                userCartId: userCartId,
-                                                quantity: quantity,
-                                                price: price,
-                                            }
-                                        }).success(function (data) {
-                                            var total = $('.price_{{$userCart->id}}').val() * $('.quantity-spinner_{{$userCart->id}}').val()
-                                            $('.item-count').empty().append(data.count);
-                                            $('.totalPrice').empty().append('<span>المجموع الكلي:</span>'+data.totalPrice+'$');
-                                            $('.sub-total_{{$userCart->id}}').empty().text('$'+total);
-                                            new Noty({
-                                                text: data.message,
-                                                timeout: 2000,
-                                                killer: true,
-                                                type: "alert",
-                                                theme: 'semanticui',
-                                                layout: 'bottomLeft'
-                                            }).show();
-                                            //location.reload();
-                                        });
+                                        if({{$userCart->status}} != 1){
+                                            $.ajax({
+                                                type: "get",
+                                                url: '{{route('cart.quantity.update')}}',
+                                                data: {
+                                                    userCartId: userCartId,
+                                                    quantity: quantity,
+                                                    price: price,
+                                                }
+                                            }).success(function (data) {
+                                                var total = $('.price_{{$userCart->id}}').val() * $('.quantity-spinner_{{$userCart->id}}').val()
+                                                $('.item-count').empty().append(data.count);
+                                                $('.totalPrice').empty().append('<span>المجموع الكلي:</span>'+data.totalPrice+'$');
+                                                $('.sub-total_{{$userCart->id}}').empty().text('$'+total);
+                                                new Noty({
+                                                    text: data.message,
+                                                    timeout: 2000,
+                                                    killer: true,
+                                                    type: "alert",
+                                                    theme: 'semanticui',
+                                                    layout: 'bottomLeft'
+                                                }).show();
+                                                //location.reload();
+                                            });
+                                        }
+                                       else {
+                                           alert('can not update');
+                                        }
                                     })
 
                                     $( document ).ready(function() {
@@ -136,13 +142,12 @@
             </div>
             <div class="text-center" style="margin-top: 80px; ">
                 <div class="link-btn">
-                    <a href="{{route('checkout')}}" class="theme-btn btn-style-one"><span>اجراء عملية الدفع</span></a>
+                    <a href="{{route('stripe.checkout')}}" class="theme-btn btn-style-one"><span>اجراء عملية الدفع</span></a>
                 </div>
             </div>
         </div>
 
     </section>
-
 
 @endsection
 

@@ -17,12 +17,11 @@ Route::prefix(LaravelLocalization::setLocale())
         Route::get('cart', [\App\Http\Controllers\WebController::class, 'cart'])->name('cart');
         Route::get('cart/remove', [\App\Http\Controllers\WebController::class, 'cartRemove'])->name('cart.remove');
         Route::get('cart/quantity/update', [\App\Http\Controllers\WebController::class, 'cartQuantityUpdate'])->name('cart.quantity.update');
-        Route::get('checkout', [\App\Http\Controllers\WebController::class, 'checkout'])->name('checkout');
-        Route::get('confirm_payment', [\App\Http\Controllers\StripePaymentController::class, 'confirmPayment'])->name('confirm_payment');
+        Route::get('payment_success', [\App\Http\Controllers\StripePaymentController::class, 'paymentSuccess'])->name('payment_success');
+        Route::get('payment_cancel', [\App\Http\Controllers\StripePaymentController::class, 'paymentCancel'])->name('payment_cancel');
 
         Route::controller(\App\Http\Controllers\StripePaymentController::class)->group(function(){
-            Route::get('stripe', 'stripe');
-            Route::post('stripe', 'stripePost')->name('stripe.post');
+            Route::get('stripe', 'stripePost')->name('stripe.checkout');
         });
     });
 /*Route::get('payment', 'App\Http\Controllers\WebController@payment')->name('payment');*/

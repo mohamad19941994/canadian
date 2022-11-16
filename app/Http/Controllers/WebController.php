@@ -404,6 +404,7 @@ class WebController extends Controller
 
         UserCart::updateOrCreate([
             'user_id' => $user_id,
+            'status' => 0,
             'campaign_id' => $campaign_id
         ], $input);
 

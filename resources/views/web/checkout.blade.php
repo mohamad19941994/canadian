@@ -43,31 +43,31 @@
                                 <div class="col-md-12">
                                     <div class="field-label">الاسم الثلاثي على البطاقة*</div>
                                     <div class="field-input">
-                                        <input type="text" placeholder="">
+                                        <input type="text" placeholder="" name="cartName">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="field-label">رقم البطاقة*</div>
                                     <div class="field-input">
-                                        <input type="text" placeholder="" autocomplete='off' class='card-number' maxlength="20"> {{--Number: 4242 4242 4242 4242--}}
+                                        <input type="text" name="cartNumber" placeholder="" autocomplete='off' class='card-number' maxlength="20"> {{--Number: 4242 4242 4242 4242--}}
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="field-label">سنة*</div>
                                     <div class="field-input">
-                                        <input type="text" placeholder="YYYY" autocomplete='off' class='card-expiry-year' maxlength="4">
+                                        <input type="text" placeholder="YYYY" name="cartYear" autocomplete='off' class='card-expiry-year' maxlength="4">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="field-label">شهر*</div>
                                     <div class="field-input">
-                                        <input type="text" placeholder="MM" autocomplete='off' class='card-expiry-month' maxlength="2">
+                                        <input type="text" placeholder="MM" name="cartMonth" autocomplete='off' class='card-expiry-month' maxlength="2">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="field-label">CSV*</div>
                                     <div class="field-input">
-                                        <input autocomplete='off' class='card-cvc' placeholder='مثال. 311' type='text' maxlength="3">
+                                        <input autocomplete='off' class='card-cvc' name="cartCsv" placeholder='مثال. 311' type='text' maxlength="3">
                                     </div>
                                 </div>
                                 <div class='form-row row'>
@@ -90,83 +90,7 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
-    <script type="text/javascript">
 
-        $(function() {
 
-            /*------------------------------------------
-            --------------------------------------------
-            Stripe Payment Code
-            --------------------------------------------
-            --------------------------------------------*/
-
-            var $form = $(".require-validation");
-
-            $('form.require-validation').bind('submit', function(e) {
-                var $form = $(".require-validation"),
-                    inputSelector = ['input[type=email]', 'input[type=password]',
-                        'input[type=text]', 'input[type=file]',
-                        'textarea'].join(', '),
-                    $inputs = $form.find('.required').find(inputSelector),
-                    $errorMessage = $form.find('div.error'),
-                    valid = true;
-                $errorMessage.addClass('d-none');
-
-                $('.has-error').removeClass('has-error');
-                $inputs.each(function(i, el) {
-                    var $input = $(el);
-                    if ($input.val() === '') {
-                        $input.parent().addClass('has-error');
-                        $errorMessage.removeClass('d-none');
-                        e.preventDefault();
-                    }
-                });
-
-                if (!$form.data('cc-on-file')) {
-                    e.preventDefault();
-                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-                    Stripe.createToken({
-                        number: $('.card-number').val(),
-                        cvc: $('.card-cvc').val(),
-                        exp_month: $('.card-expiry-month').val(),
-                        exp_year: $('.card-expiry-year').val()
-                    }, stripeResponseHandler);
-                }
-
-            });
-
-            /*------------------------------------------
-            --------------------------------------------
-            Stripe Response Handler
-            --------------------------------------------
-            --------------------------------------------*/
-            function stripeResponseHandler(status, response) {
-                if (response.error) {
-                    $('.error')
-                        .removeClass('d-none')
-                        .find('.alert')
-                        .text(response.error.message);
-                } else {
-                    /* token contains id, last4, and card type */
-                    var token = response['id'];
-                    //console.log(token)
-                    $.ajax({
-                        type: "get",
-                        url: '{{route('confirm_payment')}}',
-                        data: {
-                            token: token,
-                        }
-                    }).success(function (data) {
-                        console.log(data)
-                    });
-                    /*$form.find('input[type=text]').empty();
-                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-                    $form.get(0).submit();*/
-                }
-            }
-
-        });
-    </script>
 @endpush
