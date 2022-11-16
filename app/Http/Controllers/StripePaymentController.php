@@ -39,4 +39,13 @@ class StripePaymentController extends Controller
 
         return back();
     }
+    public function confirmPayment(Request $request){
+        //dd($request->all());
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $search = Stripe\Charge::search ([
+            'token'=>$request->token
+        ]);
+
+        dd($search);
+    }
 }

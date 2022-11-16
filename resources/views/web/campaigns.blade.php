@@ -34,15 +34,15 @@
                                     <div class="text">{!! $campaign->description !!}</div>
                                     <div class="info-box">
                                         <div class="raised">
-                                            <a href="#"><span>Raised:</span> $72000</a>
+                                            <a href="#"><span>متبقٍ:</span> $72000</a>
                                         </div>
                                         <div class="count-box">
                                             <span class="count-text" data-speed="3000" data-stop="60">0</span><span class="affix">%</span>
                                         </div>
                                         <div class="goal">
-                                            <a href="#"><span>Goal:</span>  ${{$campaign->goal}}</a>
+                                            <a href="#"><span>مطلوب:</span>  ${{$campaign->goal}}</a>
                                         </div>
-                                        <div class="overlay-content">
+                                        {{--<div class="overlay-content">
                                             <ul class="clearfix">
                                                 <li>
                                                     <div class="addToCart_{{$campaign->id}}"><span class="fa fa-shopping-cart"></span>
@@ -54,8 +54,55 @@
                                                     <input type="hidden" name="campaignId_{{$campaign->id}}" value="{{$campaign->id}}" class="form-control campaignId_{{$campaign->id}}" />
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div>--}}
+
                                     </div>
+
+                                    <form action="#" class="donate-form default-form">
+                                        <ul class="chicklet-list clearfix">
+                                            <li>
+                                                <input type="radio" id="donate-amount-1-{{$campaign->id}}" value="10" name="donate-amount-{{$campaign->id}}">
+                                                <label for="donate-amount-1-{{$campaign->id}}" data-amount="10">$10</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="donate-amount-2-{{$campaign->id}}" value="20" name="donate-amount-{{$campaign->id}}" checked="checked">
+                                                <label for="donate-amount-2-{{$campaign->id}}" data-amount="20">$20</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="donate-amount-3-{{$campaign->id}}" value="50" name="donate-amount-{{$campaign->id}}">
+                                                <label for="donate-amount-3-{{$campaign->id}}" data-amount="50">$50</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="donate-amount-4-{{$campaign->id}}" value="100" name="donate-amount-{{$campaign->id}}">
+                                                <label for="donate-amount-4-{{$campaign->id}}" data-amount="100">$100</label>
+                                            </li>
+                                            <li class="other-amount">
+                                                <div class="input-container" data-message="Every dollar you donate helps end hunger.">
+                                                    <input type="number" name="price_{{$campaign->id}}" id="other-amount-{{$campaign->id}}" class="price_{{$campaign->id}}" placeholder="قيمة اخرى" dir="rtl">
+                                                </div>
+                                                <input type="hidden" name="campaignId_{{$campaign->id}}" value="{{$campaign->id}}" class="form-control campaignId_{{$campaign->id}}" />
+                                            </li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <div class="overlay-content">
+                                    <ul class="clearfix" style="display: flex;justify-content: space-evenly;">
+                                        <li>
+                                            <a href="javascript:;" class="addToCart_{{$campaign->id}}"><span class="fa fa-shopping-cart"></span>
+                                                <div class="toltip-content">
+                                                    <p>أضف للسلة</p>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="javascript:;"><span class="fa fa-money"></span>
+                                                <div class="toltip-content">
+                                                    <p>تبرع</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -86,6 +133,14 @@
                                 });
 
                             })
+
+                            $(function() {
+
+                                $("input:radio[name=donate-amount-{{$campaign->id}}]").on("click",function() {
+                                    var amount = $("input:radio[name=donate-amount-{{$campaign->id}}]:checked").val();
+                                    $('#other-amount-{{$campaign->id}}').val(amount);
+                                });
+                            });
                         </script>
                     @endforeach
                 </div>

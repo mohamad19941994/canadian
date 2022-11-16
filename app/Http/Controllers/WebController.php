@@ -420,9 +420,10 @@ class WebController extends Controller
 
     public function cart(){
 
-        $userCarts = UserCart::all();
-        //dd($userCarts);
-        return view('web.cart', compact('userCarts'));
+        $userCarts = UserCart::query()->where('user_id', auth()->id())->get();
+        $totalPrice = UserCart::query()->where('user_id', auth()->id())->sum('total_price');
+
+        return view('web.cart', compact('userCarts', 'totalPrice'));
     }
 
     public function cartRemove(Request $request){
@@ -442,15 +443,25 @@ class WebController extends Controller
     public function cartQuantityUpdate(Request $request){
 
         //dd($request->all());
-        UserCart::findOrFail($request->userCartId)->update(['quantity'=> $request->quantity]);
+        UserCart::findOrFail($request->userCartId)->update(['quantity'=> $request->quantity,'total_price'=> $request->price * $request->quantity]);
 
+        $totalPrice = UserCart::query()->where('user_id', auth()->id())->sum('total_price');
         session()->flash('success', __('site.updated_successfully'));
         session(['count' => self::cartCount()]);
 
         return response()->json([
             'message'=> __('site.updated_successfully'),
             'count'=> self::cartCount(),
+            'totalPrice'=> $totalPrice,
         ]);
+    }
+
+    public function checkout(){
+
+        //dd($request->all());
+        //$total = $request->totalPrice;
+        $total = UserCart::query()->where('user_id', auth()->id())->sum('total_price');
+        return view('web.checkout', compact('total'));
     }
 
 
